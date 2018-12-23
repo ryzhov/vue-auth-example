@@ -11,6 +11,7 @@
     "bulma": "^0.7.2",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
+    "vuejs-logger": "1.5.3",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
@@ -20,6 +21,9 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0-0",
+    "lint-staged": "^8.1.0",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
     "vue-template-compiler": "^2.5.17"
   },
   "eslintConfig": {
@@ -45,5 +49,12 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": ["eslint --fix", "git add"],
+    "*.vue": ["eslint --fix", "git add"]
+  }
 }
