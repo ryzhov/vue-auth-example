@@ -2,8 +2,8 @@
     <div id="app" class="container">
         <nav class="navbar" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
-                <a class="navbar-item" href="/">
-                    <img src="./assets/favicon.png" width="32" height="32">
+                <a class="navbar-item">
+                    <img src="./assets/logo.png" width="32" height="32">
                 </a>
                 <a role="button" class="navbar-burger burger" v-on:click="toggle" aria-label="menu"
                    aria-expanded="false" data-target="navbarMain">
