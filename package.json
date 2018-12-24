@@ -15,6 +15,7 @@
     "vuex": "^3.0.1"
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.6.3",
     "@vue/cli-plugin-babel": "^3.2.0",
     "@vue/cli-plugin-eslint": "^3.2.0",
     "@vue/cli-service": "^3.2.0",
@@ -54,7 +55,13 @@
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": ["eslint --fix", "git add"],
-    "*.vue": ["eslint --fix", "git add"]
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.vue": [
+      "eslint --fix",
+      "git add"
+    ]
   }
 }

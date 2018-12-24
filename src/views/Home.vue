@@ -1,6 +1,6 @@
 <template>
-    <div class="home column is-three-fifths is-offset-one-fifth">
-        <HelloWorld class="content" msg="Welcome to Your Vue.js App"/>
+    <div class="home column is-three-fifths is-offset-one-fifth content">
+        <HelloWorld msg="Welcome to Your Vue.js App"/>
     </div>
 </template>
 
