@@ -1,16 +1,17 @@
 <template>
     <div class="home column is-three-fifths is-offset-one-fifth content">
-        <HelloWorld msg="Welcome to Your Vue.js App"/>
+        <h1 class="title has-text-centered">User list:</h1>
+        <UserList />
     </div>
 </template>
 
 <script>
-    import HelloWorld from '@/components/HelloWorld.vue';
+    import UserList from '@/components/UserList';
 
     export default {
         name: 'Home',
         components: {
-            HelloWorld
+            UserList
         }
     }
 </script>

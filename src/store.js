@@ -4,13 +4,21 @@ import Vuex from 'vuex'
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {
+    state: {
+        users: []
+    },
 
-  },
-  mutations: {
+    getters: {
+        users: state => state.users,
+        usersCount: state => state.users.length
+    },
 
-  },
-  actions: {
+    mutations: {
+        pushUser(state, user) {
+            state.users.push(user);
+        }
+    },
 
-  }
+    actions: {
+    }
 })

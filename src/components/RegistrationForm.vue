@@ -15,6 +15,8 @@
 </template>
 
 <script>
+    import { mapMutations } from 'vuex';
+    import { mapGetters } from 'vuex';
     import InputField from '@/components/InputField';
 
     export default {
@@ -31,13 +33,16 @@
                 password: ''
             }
         },
+        computed: {
+            ...mapGetters(['usersCount'])
+        },
         methods: {
+            ...mapMutations(['pushUser']),
             onSubmit() {
                 this.$log.debug(`onSubmit:: email => ${this.email}, password => ${this.password}`);
+                this.pushUser({id: this.usersCount, email: this.email, password: this.password});
             }
         }
     }
 </script>
 
-<style scoped>
-</style>
