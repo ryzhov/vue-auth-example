@@ -1,53 +1,43 @@
 <template>
-    <form name="registration" method="post">
-        <div class="field">
-            <label class="label" for="emailInputRegistration">Email:</label>
-            <div class="control has-icons-left has-icon-right">
-                <input class="input" type="email" id="emailInputRegistration" v-model="email" placeholder="Email">
-                <span class="icon is-small is-left">
-                    <i class="fas fa-envelope"></i>
-                </span>
-                <span class="icon is-small is-right">
-                    <i class="fas fa-exclamation-triangle"></i>
-                </span>
-            </div>
-        </div>
-        <div class="field">
-            <label class="label" for="passwordInputRegistration">Password:</label>
-            <div class="control has-icons-left has-icon-right">
-                <input class="input" type="password" id="passwordInputRegistration" v-model="password" placeholder="Password">
-                <span class="icon is-small is-left">
-                    <i class="fas fa-key"></i>
-                </span>
-                <span class="icon is-small is-right">
-                    <i class="fas fa-exclamation-triangle"></i>
-                </span>
-            </div>
-        </div>
+    <form v-bind:name="name" method="post" @submit.prevent="onSubmit">
+        <InputField type="email" name="Email" autocomplete="email" v-model="email" icon="envelope" />
+        <InputField type="password" name="Password" autocomplete="new-password" v-model="password" icon="key" />
+
         <div class="field is-grouped is-grouped-centered">
-            <p class="control">
-                <button class="button is-primary" type="submit">
-                    <strong>Sign up</strong>
-                </button>
-            </p>
+            <div class="control">
+                <button class="button is-primary" type="submit"><strong>Sign up</strong></button>
+            </div>
+            <div class="control">
+                <button class="button is-light" type="reset">Cancel</button>
+            </div>
         </div>
     </form>
 </template>
 
 <script>
+    import InputField from '@/components/InputField';
+
     export default {
         name: "RegistrationForm",
+        components: {
+            InputField
+        },
+        props: {
+            name: String
+        },
         data: function () {
             return {
                 email: '',
                 password: ''
+            }
+        },
+        methods: {
+            onSubmit() {
+                this.$log.debug(`onSubmit:: email => ${this.email}, password => ${this.password}`);
             }
         }
     }
 </script>
 
 <style scoped>
-    p.control {
-        margin-top: 20px;
-    }
 </style>
