@@ -22,10 +22,10 @@
     export default {
         name: "UserList",
         computed: {
-            ...mapGetters([
-                'users',
-                'usersCount'
-            ])
+            ...mapGetters({
+                users: 'auth/users',
+                usersCount: 'auth/usersCount'
+            })
         }
     }
 </script>

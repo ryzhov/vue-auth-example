@@ -1,7 +1,9 @@
 <template>
-    <form v-bind:name="name" method="post" @submit.prevent="onSubmit">
-        <InputField type="email" name="Email" autocomplete="email" v-model="email" icon="envelope" />
-        <InputField type="password" name="Password" autocomplete="new-password" v-model="password" icon="key" />
+    <form v-bind:name="name" method="post" @submit.prevent="onSubmit" @reset="onReset">
+        <InputField type="email" name="email" autocomplete="email" v-model="email"
+                    v-bind:violations="violations | getByProperty('email')" icon="envelope" />
+        <InputField type="password" name="password" autocomplete="new-password" v-model="password"
+                    v-bind:violations="violations | getByProperty('password')" icon="key" />
 
         <div class="field is-grouped is-grouped-centered">
             <div class="control">
@@ -15,9 +17,9 @@
 </template>
 
 <script>
-    import { mapMutations } from 'vuex';
-    import { mapGetters } from 'vuex';
+    import { mapActions } from 'vuex';
     import InputField from '@/components/InputField';
+    import { REGISTER } from "../store/auth";
 
     export default {
         name: "RegistrationForm",
@@ -30,17 +32,40 @@
         data: function () {
             return {
                 email: '',
-                password: ''
+                password: '',
+                violations: []
             }
         },
-        computed: {
-            ...mapGetters(['usersCount'])
+        filters: {
+            getByProperty: function (violations, property) {
+                let result = [];
+
+                violations.forEach(violation => {
+                    if (undefined !== violation.property_path && property === violation.property_path) {
+                        result.push(violation);
+                    }
+                });
+
+                return result;
+             }
         },
         methods: {
-            ...mapMutations(['pushUser']),
+            ...mapActions('auth', [
+                REGISTER
+            ]),
             onSubmit() {
-                this.$log.debug(`onSubmit:: email => ${this.email}, password => ${this.password}`);
-                this.pushUser({id: this.usersCount, email: this.email, password: this.password});
+                const {email, password} = this;
+                this.$log.debug(`onSubmit:: email => ${email}, password => ${password}`);
+                this[REGISTER]({email, password})
+                    .then(() => this.$router.push('/'))
+                    .catch((violations) => {
+                        this.$log.debug(`violations: ${violations.length} total`);
+                        this.violations = violations;
+                    });
+            },
+            onReset() {
+                this.violations = [];
+                this.email = this.password = '';
             }
         }
     }

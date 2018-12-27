@@ -52,6 +52,9 @@ export default {
                 document.getElementById(target).classList.toggle('is-active');
             }
         }
+    },
+    created: function () {
+        this.$log.debug('App created');
     }
 }
 </script>
