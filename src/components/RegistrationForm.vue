@@ -1,9 +1,11 @@
 <template>
-    <form v-bind:name="name" method="post" @submit.prevent="onSubmit" @reset="onReset">
+    <form :name="name" method="post" @submit.prevent="onSubmit" @reset="onReset">
         <InputField type="email" name="email" autocomplete="email" v-model="email"
-                    v-bind:violations="violations | getByProperty('email')" icon="envelope" />
+                    :violations="violations | getByProperty('email')" icon="envelope"
+                    @reset-violations="onResetViolations" />
         <InputField type="password" name="password" autocomplete="new-password" v-model="password"
-                    v-bind:violations="violations | getByProperty('password')" icon="key" />
+                    :violations="violations | getByProperty('password')" icon="key"
+                    @reset-violations="onResetViolations" />
 
         <div class="field is-grouped is-grouped-centered">
             <div class="control">
@@ -25,6 +27,11 @@
         name: "RegistrationForm",
         components: {
             InputField
+        },
+        provide: function () {
+            return {
+                formName: this.name
+            };
         },
         props: {
             name: String
@@ -66,6 +73,12 @@
             onReset() {
                 this.violations = [];
                 this.email = this.password = '';
+            },
+            onResetViolations(name) {
+                this.$log.debug(`reset violations => ${name}`);
+                this.violations = this.violations.filter(
+                    violation => undefined !== violation.property_path && name !== violation.property_path
+                );
             }
         }
     }
