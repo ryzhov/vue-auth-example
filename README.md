@@ -1,4 +1,4 @@
-# kama
+#vue-auth-example 
 
 ## Project setup
 ```
