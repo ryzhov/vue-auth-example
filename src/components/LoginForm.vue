@@ -3,13 +3,13 @@
         <InputField type="email" name="email" autocomplete="email" v-model="email"
                     :violations="violations | getByProperty('email')" icon="envelope"
                     @reset-violations="onResetViolations" />
-        <InputField type="password" name="password" autocomplete="new-password" v-model="password"
+        <InputField type="password" name="password" autocomplete="password" v-model="password"
                     :violations="violations | getByProperty('password')" icon="key"
                     @reset-violations="onResetViolations" />
 
         <div class="field is-grouped is-grouped-centered">
             <div class="control">
-                <button class="button is-primary" type="submit"><strong>Sign up</strong></button>
+                <button class="button is-primary" type="submit"><strong>Login</strong></button>
             </div>
             <div class="control">
                 <button class="button is-light" type="reset">Cancel</button>
@@ -21,7 +21,7 @@
 <script>
     import { mapActions } from 'vuex';
     import InputField from '@/components/InputField';
-    import { REGISTER } from "@/store/auth";
+    import { LOGIN } from "@/store/auth";
 
     export default {
         name: "RegistrationForm",
@@ -57,11 +57,11 @@
              }
         },
         methods: {
-            ...mapActions('auth', [REGISTER]),
+            ...mapActions('auth', [LOGIN]),
             onSubmit() {
                 const {email, password} = this;
                 this.$log.debug(`onSubmit:: email => ${email}, password => ${password}`);
-                this[REGISTER]({email, password})
+                this[LOGIN]({email, password})
                     .then(() => this.$router.push('/'))
                     .catch((violations) => {
                         this.$log.debug(`violations: ${violations.length} total`);

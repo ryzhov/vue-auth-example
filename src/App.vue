@@ -19,7 +19,12 @@
                 </div>
                 <div class="navbar-end">
                     <div class="navbar-item">
-                        <div class="buttons">
+                        <div class="buttons" v-if="isAuthenticated">
+                            <router-link exact activeClass="is-active" class="button is-light" to="/logout">
+                                <strong>Log out</strong>
+                            </router-link>
+                        </div>
+                        <div class="buttons" v-else>
                             <router-link exact activeClass="is-active" class="button is-primary" to="/registration">
                                 <strong>Sign up</strong>
                             </router-link>
@@ -42,19 +47,25 @@
 </style>
 
 <script>
-export default {
-    name: 'App',
-    methods: {
-        toggle: function (event) {
-            const target = event.target.dataset.target;
-            if (undefined !== target) {
-                event.target.classList.toggle('is-active');
-                document.getElementById(target).classList.toggle('is-active');
+    import {mapGetters} from 'vuex';
+
+    export default {
+        name: 'App',
+        computed: {
+            ...mapGetters('auth', ['isAuthenticated', 'user'])
+        },
+        methods: {
+            toggle: function (event) {
+                const target = event.target.dataset.target;
+                if (undefined !== target) {
+                    event.target.classList.toggle('is-active');
+                    document.getElementById(target).classList.toggle('is-active');
+                }
             }
+        },
+        created: function () {
+            this.$log.debug('App created');
+            null === sessionStorage.getItem('users') && sessionStorage.setItem('users', '[]');
         }
-    },
-    created: function () {
-        this.$log.debug('App created');
     }
-}
 </script>
