@@ -22,28 +22,21 @@ const mutations = {
 
 const actions = {
     [REGISTER]: ({commit, getters}, user) => {
-        return !getters.isAuthenticated ? auth.register(user)
-            .then(token => {
-                commit(SET_TOKEN, token);
-            })
-            : Promise.reject([{property_path: 'email', message: `user: ${getters.user.email} already authenticated`}])
+        return !getters.isAuthenticated ?
+            auth.register(user).then(token => (commit(SET_TOKEN, token), token.user)) :
+            Promise.reject([{property_path: 'email', message: `user: ${getters.user.email} already authenticated`}])
         ;
     },
     [LOGOUT]: ({commit, getters}) => {
-        return getters.isAuthenticated ? auth.logout(getters.user)
-            .then(user => {
-                commit(SET_TOKEN, null);
-                return user;
-            })
-            : Promise.reject([{property_path: 'email', message: 'authenticated token not found'}])
+        return getters.isAuthenticated ?
+            auth.logout(getters.user).then(user => (commit(SET_TOKEN, null), user)) :
+            Promise.reject([{property_path: 'email', message: 'authenticated token not found'}])
         ;
     },
     [LOGIN]: ({commit, getters}, user) => {
-        return !getters.isAuthenticated ? auth.login(user)
-            .then(token => {
-                commit(SET_TOKEN, token);
-            })
-            : Promise.reject([{property_path: 'email', message: `user: ${getters.user.email} already authenticated`}])
+        return !getters.isAuthenticated ?
+            auth.login(user).then(token => (commit(SET_TOKEN, token), token.user)) :
+            Promise.reject([{property_path: 'email', message: `user: ${getters.user.email} already authenticated`}])
         ;
     }
 };

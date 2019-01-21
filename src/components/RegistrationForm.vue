@@ -62,8 +62,11 @@
                 const {email, password} = this;
                 this.$log.debug(`onSubmit:: email => ${email}, password => ${password}`);
                 this[REGISTER]({email, password})
-                    .then(() => this.$router.push('/'))
-                    .catch((violations) => {
+                    .then(user => {
+                        this.$log.debug(`registration: user "${user.email}" registered.`);
+                        this.$router.push('/');
+                    })
+                    .catch(violations => {
                         this.$log.debug(`violations: ${violations.length} total`);
                         this.violations = violations;
                     });
