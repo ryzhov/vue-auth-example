@@ -1,6 +1,9 @@
+/* global console */
+
 export default (function () {
 
-    const users = JSON.parse(sessionStorage.getItem('users'));
+    // if key "users" not exist in sessionStorage then parse default value '[]' empty array in json
+    const users = JSON.parse(sessionStorage.getItem('users') || '[]');
 
     function authenticate({email, password}) {
         const violations = [];
@@ -41,7 +44,7 @@ export default (function () {
                 // -- if backend exist try fetch token from it --
                 // -- or in case of fail you get violations --
                 const violations = authenticate(user);
-                violations.length && reject(violations) || resolve({authenticated: true, user: user});
+                violations.length ? reject(violations) : resolve({authenticated: true, user: user});
             });
         },
 
@@ -67,7 +70,7 @@ export default (function () {
                 // -- or in case of fail you get violations --
                 // -- assume that user successfully logout --
                 const violations = [];
-                violations.length && reject(violations) || resolve(user);
+                violations.length ? reject(violations) : resolve(user);
             });
         }
     };

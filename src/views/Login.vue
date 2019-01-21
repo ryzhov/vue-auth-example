@@ -1,10 +1,10 @@
 <template>
-  <div class="login">
-    <div class="registration column is-4 is-offset-4">
-      <h1 class="title has-text-centered">Login</h1>
-      <LoginForm name="login"/>
+    <div class="login">
+        <div class="column is-4 is-offset-4">
+            <h1 class="title has-text-centered">Login</h1>
+            <LoginForm name="login"/>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>

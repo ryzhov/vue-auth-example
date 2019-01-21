@@ -24,7 +24,7 @@
     import { LOGIN } from "@/store/auth";
 
     export default {
-        name: "RegistrationForm",
+        name: "LoginForm",
         components: {
             InputField
         },
@@ -34,7 +34,7 @@
             };
         },
         props: {
-            name: String
+            name: { type: String, required: true },
         },
         data: function () {
             return {
@@ -63,7 +63,7 @@
                 this.$log.debug(`onSubmit:: email => ${email}, password => ${password}`);
                 this[LOGIN]({email, password})
                     .then(() => this.$router.push('/'))
-                    .catch((violations) => {
+                    .catch(violations => {
                         this.$log.debug(`violations: ${violations.length} total`);
                         this.violations = violations;
                     });
