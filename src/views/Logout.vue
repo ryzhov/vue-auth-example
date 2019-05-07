@@ -28,7 +28,7 @@
                     this.$log.debug(`logout: ${user.email} success`);
                     this.$router.push('/');
                 })
-                .catch((violations) => {
+                .catch(violations => {
                     this.$log.debug(`violations: ${violations.length} total`);
                     this.violations = violations;
                 });

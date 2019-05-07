@@ -59,11 +59,11 @@
         methods: {
             ...mapActions('auth', [LOGIN]),
             onSubmit() {
-                const {email, password} = this;
-                this.$log.debug(`onSubmit:: email => ${email}, password => ${password}`);
-                this[LOGIN]({email, password})
+                const {email: username, password} = this;
+                this.$log.debug(`onSubmit:: username => ${username}, password => ${password}`);
+                this[LOGIN]({username, password})
                     .then(user => {
-                        this.$log.debug(`login: user "${user.email}" logged in.`);
+                        this.$log.debug(`login: user "${user.username}" logged in.`);
                         this.$router.push('/');
                     })
                     .catch(violations => {
