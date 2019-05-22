@@ -67,22 +67,19 @@ const actions = {
             Promise.reject([{property_path: 'email', message: 'authenticated token not found'}])
         ;
     },
-    [LOGIN]: ({commit, getters}, user) => {
-        return !getters.isAuthenticated ?
-            auth.login(user).then(response => {
-                const {data} = response;
+    [LOGIN]: ({commit}, user) => {
+        return auth.login(user).then(response => {
+            const {data} = response;
 
-                console.log(`store::auth login => ${JSON.stringify(data)}`);
-                commit(SET_AUTH, data);
-                return  data.user
-            }).catch(error => {
-                const {message} = error.response.data;
+            console.log(`store::auth login => ${JSON.stringify(data)}`);
+            commit(SET_AUTH, data);
+            return  data.user
+        }).catch(error => {
+            const {message} = error.response ? error.response.data : error;
 
-                console.log(`store::auth login => ${error}, message => ${message}`);
-                return Promise.reject([{property_path: 'email', message}]);
-            }) :
-            Promise.reject([{property_path: 'email', message: `user: ${getters.user.email} already authenticated`}])
-        ;
+            console.log(`store::auth login => ${error}, message => ${message}`);
+            return Promise.reject([{property_path: 'email', message}]);
+        });
     }
 };
 

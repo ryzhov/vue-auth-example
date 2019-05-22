@@ -10,7 +10,7 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex';
+    import {mapGetters} from 'vuex';
 
     export default {
         name: "User",
@@ -20,5 +20,3 @@
     }
 </script>
 
-<style scoped>
-</style>

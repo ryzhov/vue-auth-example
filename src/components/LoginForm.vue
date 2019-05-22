@@ -9,7 +9,9 @@
 
         <div class="field is-grouped is-grouped-centered">
             <div class="control">
-                <button class="button is-primary" type="submit"><strong>Login</strong></button>
+                <button class="button is-primary" type="submit" :disabled="!readyForSubmit">
+                    <strong>Login</strong>
+                </button>
             </div>
             <div class="control">
                 <button class="button is-light" type="reset">Cancel</button>
@@ -28,7 +30,7 @@
         components: {
             InputField
         },
-        provide: function () {
+        provide() {
             return {
                 formName: this.name
             };
@@ -36,15 +38,16 @@
         props: {
             name: { type: String, required: true },
         },
-        data: function () {
+        data() {
             return {
                 email: '',
                 password: '',
-                violations: []
+                violations: [],
+                mutation: false,
             }
         },
         filters: {
-            getByProperty: function (violations, property) {
+            getByProperty(violations, property) {
                 let result = [];
 
                 violations.forEach(violation => {
@@ -56,11 +59,17 @@
                 return result;
              }
         },
+        computed: {
+            readyForSubmit() {
+                return !this.mutation && 0 === this.violations.length;
+            },
+        },
         methods: {
             ...mapActions('auth', [LOGIN]),
             onSubmit() {
                 const {email: username, password} = this;
                 this.$log.debug(`onSubmit:: username => ${username}, password => ${password}`);
+                this.mutation = true;
                 this[LOGIN]({username, password})
                     .then(user => {
                         this.$log.debug(`login: user "${user.username}" logged in.`);
@@ -69,7 +78,10 @@
                     .catch(violations => {
                         this.$log.debug(`violations: ${violations.length} total`);
                         this.violations = violations;
-                    });
+                    }).finally(() => {
+                        this.mutation = false;
+                    })
+                ;
             },
             onReset() {
                 this.violations = [];

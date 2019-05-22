@@ -40,12 +40,6 @@
     </div>
 </template>
 
-<style scoped>
-    .navbar-burger span {
-        pointer-events: none;
-    }
-</style>
-
 <script>
     import {mapGetters} from 'vuex';
 
@@ -55,17 +49,24 @@
             ...mapGetters('auth', ['isAuthenticated', 'user'])
         },
         methods: {
-            toggle: function (event) {
-                const target = event.target.dataset.target;
+            toggle: event => {
+                const {target} = event.target.dataset;
+
                 if (undefined !== target) {
                     event.target.classList.toggle('is-active');
                     document.getElementById(target).classList.toggle('is-active');
                 }
             }
         },
-        created: function () {
+        created() {
             this.$log.debug('App created');
             null === sessionStorage.getItem('users') && sessionStorage.setItem('users', '[]');
         }
     }
 </script>
+
+<style scoped>
+    .navbar-burger span {
+        pointer-events: none;
+    }
+</style>
