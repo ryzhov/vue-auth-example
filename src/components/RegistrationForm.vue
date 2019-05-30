@@ -48,7 +48,7 @@
                 let result = [];
 
                 violations.forEach(violation => {
-                    if (undefined !== violation.property_path && property === violation.property_path) {
+                    if (property === violation.propertyPath) {
                         result.push(violation);
                     }
                 });
@@ -59,15 +59,15 @@
         methods: {
             ...mapActions('auth', [REGISTER]),
             onSubmit() {
-                const {email, password} = this;
-                this.$log.debug(`onSubmit:: email => ${email}, password => ${password}`);
+                const {email, password, $log: {debug}} = this;
+                debug(`onSubmit:: email => ${email}, password => ${password}`);
                 this[REGISTER]({email, password})
                     .then(user => {
-                        this.$log.debug(`registration: user "${user.email}" registered.`);
+                        debug(`registration: user "${user.email}" registered.`);
                         this.$router.push('/');
                     })
                     .catch(violations => {
-                        this.$log.debug(`violations: ${violations.length} total`);
+                        debug(`violations: ${violations.length} total`);
                         this.violations = violations;
                     });
             },
@@ -76,9 +76,7 @@
                 this.email = this.password = '';
             },
             onResetViolations(name) {
-                this.violations = this.violations.filter(
-                    violation => undefined !== violation.property_path && name !== violation.property_path
-                );
+                this.violations = this.violations.filter(violation => name !== violation.propertyPath);
             }
         }
     }

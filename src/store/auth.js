@@ -50,8 +50,7 @@ const actions = {
         ;
     },
     [LOGOUT]: ({commit, getters}) => {
-        return getters.isAuthenticated ?
-            auth.logout(getters.token).then(response => {
+        return auth.logout(getters.token).then(response => {
                 const {data} = response;
                 console.log(`store::auth logout => ${JSON.stringify(data)}`);
                 return data.user;
@@ -63,8 +62,7 @@ const actions = {
             }).finally(() => {
                 console.log('store::auth logout => clear auth data');
                 commit(CLEAR_AUTH);
-            }) :
-            Promise.reject([{property_path: 'email', message: 'authenticated token not found'}])
+            })
         ;
     },
     [LOGIN]: ({commit}, user) => {

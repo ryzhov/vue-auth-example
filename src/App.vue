@@ -60,7 +60,6 @@
         },
         created() {
             this.$log.debug('App created');
-            null === sessionStorage.getItem('users') && sessionStorage.setItem('users', '[]');
         }
     }
 </script>
