@@ -6,5 +6,5 @@ const url = config.user_service_url;
 export default  {
     login: user => api.post(`${url}/login`, user),
     register: user => api.post(`${url}/registration`, user),
-    logout: token => api.post(`${url}/logout`, token),
+    logout: () => api.post(`${url}/logout`),
 };

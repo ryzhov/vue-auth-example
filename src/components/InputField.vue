@@ -28,10 +28,10 @@
             violations: { type: Array, default: () => [] }
         },
         computed: {
-            id: function () {
+            id() {
                 return `${this.formName}_${this.name}_input`;
             },
-            hasViolations: function () {
+            hasViolations() {
                 return this.violations.length > 0;
             }
         },
@@ -41,6 +41,6 @@
                 this.hasViolations && this.$emit('reset-violations', this.name);
             }
         }
-    }
+    };
 </script>
 

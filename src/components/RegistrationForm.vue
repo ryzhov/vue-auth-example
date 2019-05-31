@@ -9,10 +9,12 @@
 
         <div class="field is-grouped is-grouped-centered">
             <div class="control">
-                <button class="button is-primary" type="submit"><strong>Sign up</strong></button>
+                <button class="button is-primary" type="submit" :disabled="!readyForSubmit">
+                    <strong>Sign up</strong>
+                </button>
             </div>
             <div class="control">
-                <button class="button is-light" type="reset">Cancel</button>
+                <button class="button is-light" type="reset">Reset</button>
             </div>
         </div>
     </form>
@@ -20,65 +22,46 @@
 
 <script>
     import { mapActions } from 'vuex';
+    import FormMixin from "@/components/FormMixin";
     import InputField from '@/components/InputField';
     import { REGISTER } from "@/store/auth";
 
     export default {
         name: "RegistrationForm",
+        mixins: [FormMixin],
         components: {
             InputField
         },
-        provide: function () {
-            return {
-                formName: this.name
-            };
-        },
-        props: {
-            name: String
-        },
-        data: function () {
+        data() {
             return {
                 email: '',
                 password: '',
-                violations: []
-            }
-        },
-        filters: {
-            getByProperty: function (violations, property) {
-                let result = [];
-
-                violations.forEach(violation => {
-                    if (property === violation.propertyPath) {
-                        result.push(violation);
-                    }
-                });
-
-                return result;
-             }
+            };
         },
         methods: {
             ...mapActions('auth', [REGISTER]),
             onSubmit() {
-                const {email, password, $log: {debug}} = this;
+                const {email, password, $log: {debug}, $router} = this;
                 debug(`onSubmit:: email => ${email}, password => ${password}`);
+                this.mutation = true;
                 this[REGISTER]({email, password})
                     .then(user => {
                         debug(`registration: user "${user.email}" registered.`);
-                        this.$router.push('/');
+                        $router.push('/');
                     })
                     .catch(violations => {
                         debug(`violations: ${violations.length} total`);
                         this.violations = violations;
-                    });
+                    }).finally(() => {
+                        this.mutation = false;
+                    })
+                ;
             },
             onReset() {
                 this.violations = [];
                 this.email = this.password = '';
             },
-            onResetViolations(name) {
-                this.violations = this.violations.filter(violation => name !== violation.propertyPath);
-            }
-        }
-    }
+        },
+    };
 </script>
 

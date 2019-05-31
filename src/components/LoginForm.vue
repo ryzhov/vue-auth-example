@@ -14,7 +14,7 @@
                 </button>
             </div>
             <div class="control">
-                <button class="button is-light" type="reset">Cancel</button>
+                <button class="button is-light" type="reset">Reset</button>
             </div>
         </div>
     </form>
@@ -22,47 +22,21 @@
 
 <script>
     import { mapActions } from 'vuex';
+    import FormMixin from "@/components/FormMixin";
     import InputField from '@/components/InputField';
     import { LOGIN } from "@/store/auth";
 
     export default {
         name: "LoginForm",
+        mixins: [FormMixin],
         components: {
             InputField
-        },
-        provide() {
-            return {
-                formName: this.name
-            };
-        },
-        props: {
-            name: { type: String, required: true },
         },
         data() {
             return {
                 email: '',
                 password: '',
-                violations: [],
-                mutation: false,
-            }
-        },
-        filters: {
-            getByProperty(violations, property) {
-                let result = [];
-
-                violations.forEach(violation => {
-                    if (undefined !== violation.property_path && property === violation.property_path) {
-                        result.push(violation);
-                    }
-                });
-
-                return result;
-             }
-        },
-        computed: {
-            readyForSubmit() {
-                return !this.mutation && 0 === this.violations.length;
-            },
+            };
         },
         methods: {
             ...mapActions('auth', [LOGIN]),
@@ -87,12 +61,7 @@
                 this.violations = [];
                 this.email = this.password = '';
             },
-            onResetViolations(name) {
-                this.violations = this.violations.filter(
-                    violation => undefined !== violation.property_path && name !== violation.property_path
-                );
-            }
         }
-    }
+    };
 </script>
 

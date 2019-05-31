@@ -33,30 +33,25 @@ const mutations = {
 };
 
 const actions = {
-    [REGISTER]: ({commit, getters}, user) => {
-        return !getters.isAuthenticated ?
-            auth.register(user).then(response => {
-                const {data} = response;
-                console.log(`store::auth register => ${JSON.stringify(data)}`);
-                commit(SET_AUTH, data);
-                return data.user
-            }).catch(error => {
-                const {message, violations} = error.response.data;
-
-                console.log(`store::auth register => ${error}, message => ${message}`);
-                return Promise.reject(violations || []);
-            }) :
-            Promise.reject([{property_path: 'email', message: `user: ${getters.user.email} already authenticated`}])
-        ;
+    [REGISTER]: ({commit}, user) => {
+        return auth.register(user).then(response => {
+            const {data} = response;
+            console.log(`store::auth register => ${JSON.stringify(data)}`);
+            commit(SET_AUTH, data);
+            return data.user;
+        }).catch(error => {
+            const {message, violations} = error.response.data;
+            console.log(`store::auth register => ${error}, message => ${message}`);
+            return Promise.reject(violations || []);
+        });
     },
-    [LOGOUT]: ({commit, getters}) => {
-        return auth.logout(getters.token).then(response => {
+    [LOGOUT]: ({commit}) => {
+        return auth.logout().then(response => {
                 const {data} = response;
                 console.log(`store::auth logout => ${JSON.stringify(data)}`);
                 return data.user;
             }).catch(error => {
                 const {message, violations} = error.response.data;
-
                 console.log(`store::auth logout => ${error}, message => ${message}`);
                 return Promise.reject(violations || []);
             }).finally(() => {
@@ -68,15 +63,13 @@ const actions = {
     [LOGIN]: ({commit}, user) => {
         return auth.login(user).then(response => {
             const {data} = response;
-
             console.log(`store::auth login => ${JSON.stringify(data)}`);
             commit(SET_AUTH, data);
-            return  data.user
+            return  data.user;
         }).catch(error => {
             const {message} = error.response ? error.response.data : error;
-
             console.log(`store::auth login => ${error}, message => ${message}`);
-            return Promise.reject([{property_path: 'email', message}]);
+            return Promise.reject([{propertyPath: 'email', message}]);
         });
     }
 };
