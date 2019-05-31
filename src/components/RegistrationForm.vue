@@ -1,5 +1,9 @@
 <template>
     <form :name="name" method="post" @submit.prevent="onSubmit" @reset="onReset">
+        <div class="notification" v-if="message">
+            <button class="delete" @click="onCloseMessage"></button>
+            {{message}}
+        </div>
         <InputField type="email" name="email" autocomplete="email" v-model="email"
                     :violations="violations | getByProperty('email')" icon="envelope"
                     @reset-violations="onResetViolations" />
@@ -36,12 +40,13 @@
             return {
                 email: '',
                 password: '',
+                message: '',
             };
         },
         methods: {
             ...mapActions('auth', [REGISTER]),
             onSubmit() {
-                const {email, password, $log: {debug}, $router} = this;
+                const {email, password, $log: {debug, error}, $router} = this;
                 debug(`onSubmit:: email => ${email}, password => ${password}`);
                 this.mutation = true;
                 this[REGISTER]({email, password})
@@ -49,9 +54,10 @@
                         debug(`registration: user "${user.email}" registered.`);
                         $router.push('/');
                     })
-                    .catch(violations => {
-                        debug(`violations: ${violations.length} total`);
+                    .catch(({message, violations}) => {
+                        error(`violations: ${violations.length} total, message: ${message}`);
                         this.violations = violations;
+                        this.message = message;
                     }).finally(() => {
                         this.mutation = false;
                     })
@@ -59,7 +65,10 @@
             },
             onReset() {
                 this.violations = [];
-                this.email = this.password = '';
+                this.message = this.email = this.password = '';
+            },
+            onCloseMessage() {
+                this.message = '';
             },
         },
     };

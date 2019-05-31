@@ -1,8 +1,5 @@
 <template>
     <div class="logout content">
-        <p v-for="(violation, index) in violations" v-bind:key="index" class="help is-danger">
-            {{ violation.message }}
-        </p>
     </div>
 </template>
 
@@ -12,26 +9,24 @@
 
     export default {
         name: 'Logout',
-        data: function () {
-            return {
-                violations: []
-            };
-        },
         methods: {
-            ...mapActions('auth', [
-                LOGOUT
-            ])
+            ...mapActions('auth', [LOGOUT])
         },
-        created: function () {
+        created() {
             this[LOGOUT]()
                 .then(user => {
-                    this.$log.debug(`logout: ${user.email} success`);
-                    this.$router.push('/');
+                    const {$log: {debug}} = this;
+                    debug(`logout: ${user.email} success`);
                 })
-                .catch(violations => {
-                    this.$log.debug(`violations: ${violations.length} total`);
-                    this.violations = violations;
-                });
+                .catch(message => {
+                    const {$log: {error}} = this;
+                    error(`Error: ${message}`);
+                })
+                .finally(() => {
+                    const {$router} = this;
+                    $router.push('/');
+                })
+            ;
         }
-    }
+    };
 </script>

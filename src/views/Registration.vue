@@ -8,12 +8,12 @@
 </template>
 
 <script>
-    import RegistrationForm from '@/components/RegistrationForm.vue'
+    import RegistrationForm from '@/components/RegistrationForm.vue';
 
     export default {
         name: 'Registration',
         components: {
             RegistrationForm
         }
-    }
+    };
 </script>

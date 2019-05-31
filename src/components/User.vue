@@ -17,6 +17,6 @@
         computed: {
             ...mapGetters('auth', ['isAuthenticated', 'user'])
         }
-    }
+    };
 </script>
 

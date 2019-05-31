@@ -61,7 +61,7 @@
         created() {
             this.$log.debug('App created');
         }
-    }
+    };
 </script>
 
 <style scoped>

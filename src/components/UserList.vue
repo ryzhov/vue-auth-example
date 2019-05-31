@@ -27,7 +27,7 @@
                 usersCount: 'auth/usersCount'
             })
         }
-    }
+    };
 </script>
 
 <style scoped>

@@ -40,9 +40,8 @@ const actions = {
             commit(SET_AUTH, data);
             return data.user;
         }).catch(error => {
-            const {message, violations} = error.response.data;
-            console.log(`store::auth register => ${error}, message => ${message}`);
-            return Promise.reject(violations || []);
+            const {message, violations} = error.response ? error.response.data: error;
+            return Promise.reject({violations: violations || [], message});
         });
     },
     [LOGOUT]: ({commit}) => {
@@ -51,9 +50,8 @@ const actions = {
                 console.log(`store::auth logout => ${JSON.stringify(data)}`);
                 return data.user;
             }).catch(error => {
-                const {message, violations} = error.response.data;
-                console.log(`store::auth logout => ${error}, message => ${message}`);
-                return Promise.reject(violations || []);
+                const {message} = error.response ? error.response.data : error;
+                return Promise.reject(message);
             }).finally(() => {
                 console.log('store::auth logout => clear auth data');
                 commit(CLEAR_AUTH);
@@ -68,7 +66,6 @@ const actions = {
             return  data.user;
         }).catch(error => {
             const {message} = error.response ? error.response.data : error;
-            console.log(`store::auth login => ${error}, message => ${message}`);
             return Promise.reject([{propertyPath: 'email', message}]);
         });
     }

@@ -10,5 +10,5 @@
     export default {
         name: 'Home',
         components: {User},
-    }
+    };
 </script>

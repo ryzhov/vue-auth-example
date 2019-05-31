@@ -1,9 +1,9 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Home from './views/Home.vue'
-import Registration from './views/Registration.vue'
-import Login from './views/Login.vue'
-import Logout from './views/Logout.vue'
+import Vue from 'vue';
+import Router from 'vue-router';
+import Home from './views/Home.vue';
+import Registration from './views/Registration.vue';
+import Login from './views/Login.vue';
+import Logout from './views/Logout.vue';
 
 Vue.use(Router);
 
@@ -32,4 +32,4 @@ export default new Router({
             component: Logout
         }
     ]
-})
+});
