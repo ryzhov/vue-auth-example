@@ -1,9 +1,6 @@
 <template>
     <form :name="name" method="post" @submit.prevent="onSubmit" @reset="onReset">
-        <div class="notification" v-if="message">
-            <button class="delete" @click="onCloseMessage"></button>
-            {{message}}
-        </div>
+        <Notification :message="message" @reset-notify="onResetNotify"/>
         <InputField type="email" name="email" autocomplete="email" v-model="email"
                     :violations="violations | getByProperty('email')" icon="envelope"
                     @reset-violations="onResetViolations" />
@@ -28,19 +25,20 @@
     import { mapActions } from 'vuex';
     import FormMixin from "@/components/FormMixin";
     import InputField from '@/components/InputField';
+    import Notification from "@/components/Notification";
     import { REGISTER } from "@/store/auth";
 
     export default {
         name: "RegistrationForm",
         mixins: [FormMixin],
         components: {
+            Notification,
             InputField
         },
         data() {
             return {
                 email: '',
                 password: '',
-                message: '',
             };
         },
         methods: {
@@ -66,9 +64,6 @@
             onReset() {
                 this.violations = [];
                 this.message = this.email = this.password = '';
-            },
-            onCloseMessage() {
-                this.message = '';
             },
         },
     };

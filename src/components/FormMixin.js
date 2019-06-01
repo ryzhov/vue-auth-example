@@ -13,6 +13,7 @@ export default {
 
     data() {
         return {
+            message: '',
             violations: [],
             mutation: false,
         };
@@ -33,6 +34,9 @@ export default {
     methods: {
         onResetViolations(name) {
             this.violations = this.violations.filter(violation => name !== violation.propertyPath);
-        }
+        },
+        onResetNotify() {
+            this.message = '';
+        },
     },
 };

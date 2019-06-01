@@ -20,7 +20,7 @@
                 })
                 .catch(message => {
                     const {$log: {error}} = this;
-                    error(`Error: ${message}`);
+                    error(`message: ${message}`);
                 })
                 .finally(() => {
                     const {$router} = this;

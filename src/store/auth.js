@@ -66,7 +66,7 @@ const actions = {
             return  data.user;
         }).catch(error => {
             const {message} = error.response ? error.response.data : error;
-            return Promise.reject([{propertyPath: 'email', message}]);
+            return Promise.reject({message});
         });
     }
 };

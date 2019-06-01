@@ -1,5 +1,6 @@
 <template>
     <form :name="name" method="post" @submit.prevent="onSubmit" @reset="onReset">
+        <Notification :message="message" @reset-notify="onResetNotify"/>
         <InputField type="email" name="email" autocomplete="email" v-model="email"
                     :violations="violations | getByProperty('email')" icon="envelope"
                     @reset-violations="onResetViolations" />
@@ -24,13 +25,15 @@
     import { mapActions } from 'vuex';
     import FormMixin from "@/components/FormMixin";
     import InputField from '@/components/InputField';
+    import Notification from '@/components/Notification';
     import { LOGIN } from "@/store/auth";
 
     export default {
         name: "LoginForm",
         mixins: [FormMixin],
         components: {
-            InputField
+            InputField,
+            Notification
         },
         data() {
             return {
@@ -41,25 +44,26 @@
         methods: {
             ...mapActions('auth', [LOGIN]),
             onSubmit() {
-                const {email: username, password} = this;
-                this.$log.debug(`onSubmit:: username => ${username}, password => ${password}`);
+                const {email: username, password, $log:{debug}} = this;
+                debug(`onSubmit:: username => ${username}, password => ${password}`);
                 this.mutation = true;
                 this[LOGIN]({username, password})
                     .then(user => {
-                        this.$log.debug(`login: user "${user.username}" logged in.`);
-                        this.$router.push('/');
+                        const {$log:{debug}, $router} = this;
+                        debug(`login: user "${user.username}" logged in.`);
+                        $router.push('/');
                     })
-                    .catch(violations => {
-                        this.$log.debug(`violations: ${violations.length} total`);
-                        this.violations = violations;
+                    .catch(({message}) => {
+                        const {$log:{error}} = this;
+                        error(`message: ${message}`);
+                        this.message = message;
                     }).finally(() => {
                         this.mutation = false;
                     })
                 ;
             },
             onReset() {
-                this.violations = [];
-                this.email = this.password = '';
+                this.message = this.email = this.password = '';
             },
         }
     };
