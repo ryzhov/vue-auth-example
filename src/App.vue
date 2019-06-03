@@ -41,7 +41,8 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex';
+    import {mapGetters, mapActions} from 'vuex';
+    import {ME} from "@/store/auth";
 
     export default {
         name: 'App',
@@ -49,6 +50,7 @@
             ...mapGetters('auth', ['isAuthenticated', 'user'])
         },
         methods: {
+            ...mapActions('auth', [ME]),
             toggle: event => {
                 const {target} = event.target.dataset;
 
@@ -59,7 +61,13 @@
             }
         },
         created() {
-            this.$log.debug('App created');
+            this[ME]().then(({username}) => {
+                const {$log:{debug}} = this;
+                debug(`app::created login from cookie => ${username}`);
+            }).catch(error => {
+                const {$log} = this;
+                $log.error(error.message);
+            });
         }
     };
 </script>

@@ -14,9 +14,9 @@
         },
         created() {
             this[LOGOUT]()
-                .then(user => {
+                .then(username => {
                     const {$log: {debug}} = this;
-                    debug(`logout: ${user.email} success`);
+                    debug(`logout: ${username} success`);
                 })
                 .catch(message => {
                     const {$log: {error}} = this;

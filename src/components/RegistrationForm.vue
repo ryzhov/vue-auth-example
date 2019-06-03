@@ -48,8 +48,8 @@
                 debug(`onSubmit:: email => ${email}, password => ${password}`);
                 this.mutation = true;
                 this[REGISTER]({email, password})
-                    .then(user => {
-                        debug(`registration: user "${user.email}" registered.`);
+                    .then(({username}) => {
+                        debug(`registration: user "${username}" registered.`);
                         $router.push('/');
                     })
                     .catch(({message, violations}) => {

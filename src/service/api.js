@@ -2,7 +2,8 @@ import axios from 'axios';
 import auth from '@/store/auth';
 
 const api = axios.create({
-    timeout: 3000
+    timeout: 3000,
+	withCredentials: true,
 });
 
 /**

@@ -48,9 +48,9 @@
                 debug(`onSubmit:: username => ${username}, password => ${password}`);
                 this.mutation = true;
                 this[LOGIN]({username, password})
-                    .then(user => {
+                    .then(({username}) => {
                         const {$log:{debug}, $router} = this;
-                        debug(`login: user "${user.username}" logged in.`);
+                        debug(`login: user "${username}" logged in.`);
                         $router.push('/');
                     })
                     .catch(({message}) => {

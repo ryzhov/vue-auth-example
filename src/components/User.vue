@@ -1,7 +1,7 @@
 <template>
     <div class="user">
         <div v-if="isAuthenticated">
-            <strong>Hello, {{ user.email }}!</strong>
+            <strong>Hello, {{ username }}!</strong>
         </div>
         <div v-else>
            <strong>Welcome, guest!</strong>
@@ -15,8 +15,8 @@
     export default {
         name: "User",
         computed: {
-            ...mapGetters('auth', ['isAuthenticated', 'user'])
-        }
+            ...mapGetters('auth', ['isAuthenticated', 'username'])
+        },
     };
 </script>
 
